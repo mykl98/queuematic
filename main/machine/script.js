@@ -24,7 +24,7 @@ var currCounter3Serving;
 var currCounter4Serving;
 var currCounter5Serving;
 
-var baseLink = "http://192.168.1.3/quematic/main/queuemaker/index.php?token=";
+var baseLink = "http://192.168.1.17/queuematic/main/queuemaker/index.php?token=";
 var tokenExpireCount = 0;
 
 $(document).ready(function(){
@@ -34,7 +34,7 @@ $(document).ready(function(){
 })
             
 function generateQRCode() {
-    tokenExpireCount = 20;
+    tokenExpireCount = 120;
     $.ajax({
 		type: "POST",
 		url: "generate-token.php",
