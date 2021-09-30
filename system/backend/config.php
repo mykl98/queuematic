@@ -17,7 +17,8 @@ if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 }
 
 function sanitize($input){
-	$output = $input;
+	global $conn;
+	$output = mysqli_real_escape_string($conn, $input);
 	return $output;
 }
 
