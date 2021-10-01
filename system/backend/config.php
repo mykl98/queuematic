@@ -22,4 +22,11 @@ function sanitize($input){
 	return $output;
 }
 
+function saveLog($log){
+	$logFile = fopen("log.txt", "a") or die("Unable to open file!");
+	$timeStamp = date("Y-m-d") . '-' . date("h:i:sa");
+	fwrite($logFile, $timeStamp .' Log: '. $log . "\n");
+	fclose($logFile);
+}
+
 ?>

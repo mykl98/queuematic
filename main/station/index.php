@@ -6,25 +6,11 @@
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
-        $table = "account";
-        $sql = "SELECT name,image FROM `$table` WHERE idx='$idx'";
-        if($result=mysqli_query($conn,$sql)){
-            if(mysqli_num_rows($result) > 0){
-                $row = mysqli_fetch_array($result);
-                $image = $row["image"];
-                $name = $row["name"];
-            }
-        }
-        if($image == ""){
-            $image = "../../system/images/blank-profile.png";
-        }
-        if($name == ""){
-            $name = "Michael Martin G. Abellana";
-        }
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "station"){
+        
     }else{
-        header("location:../../index.php");
-        exit();
+        //header("location:../../index.php");
+        //exit();
     }
 ?>
 
@@ -101,11 +87,11 @@
                     <!--Search box and avatar-->
                     <div class="col-sm-8 col-4 text-right flex-header-menu justify-content-end">
                         <div class="p-3">
-                            <p id="user-global-name" class=""><?php echo $name;?></p>
+                            <p id="user-global-name" class=""><?php echo $idx;?></p>
                         </div>
                         <div class="mr-4">
                             <a class="" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img id="user-global-image" src="<?php echo $image;?>" class="rounded-circle" width="40px" height="40px">
+                                <img id="user-global-image" src="../../system/images/blank-profile.png" class="rounded-circle" width="40px" height="40px">
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mt-13" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#" onclick="toggle_menu('profile_settings')"><i class="fa fa-user pr-2"></i> Profile</a>
@@ -140,16 +126,6 @@
                             <li class="parent">
                                 <a href="#" onclick="toggle_menu('dashboard'); return false" class=""><i class="fa fa-dashboard mr-3"> </i>
                                     <span class="none">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="parent">
-                                <a href="#" onclick="toggle_menu('manage_account')" class=""><i class="fas fa-user-circle mr-3"></i>
-                                    <span class="none">Manage Accounts</span>
-                                </a>
-                            </li>
-                            <li class="parent">
-                                <a href="#" onclick="toggle_menu('system_settings')" class=""><i class="fas fa-sun mr-3"></i>
-                                    <span class="none">System Settings</span>
                                 </a>
                             </li>
                         </ul>
@@ -252,7 +228,10 @@
                     <div class="col-sm-12">
                         <!--Datatable-->
                         <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
-                            <h6 class="mb-2">Currently in Queue</h6>
+                            <h6 id="station-current-queue-table-label" class="mb-2 float-left">Currently in Queue</h6>
+                                <div class="float-right">
+                                    <button class="btn btn-theme" onclick="acceptQueue()">Accept</button>
+                                </div>
                             <div class="table-responsive">
                                 <div id="dashboard-table-container"></div>
                             </div>
@@ -275,147 +254,6 @@
                 <!--Footer-->
 
             </div> <!-- Dashboard -->
-
-            <div id="manage_account" class="col-sm-9 col-xs-12 content pt-3 pl-0 page">
-                <h5 class="mb-3" ><strong>Manage Accounts</strong></h5>
-                <!--Datatable-->
-                <div class="row mt-3">
-                    <div class="col-sm-12">
-                        <!--Datatable-->
-                        <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
-                            <button class="btn bg-theme mb-2 float-right" onclick="addAccount()"><span class="fa fa-plus"></span> Add Account</button>
-                            <h6 class="mb-2">Account List</h6>
-                            <div class="table-responsive">
-                                <div id="manage-account-table-container"></div>
-                            </div>
-                        </div>
-                        <!--/Datatable-->
-                    </div>
-                </div>
-
-                <!--Footer-->
-                <div class="row mt-5 mb-2 footer">
-                    <div class="col-sm-8 text-right">
-                        <span>&copy; All rights reserved 2021 designed by <a class="text-theme" href="#">SkoolTech Solutions</a></span>
-                    </div>
-                    <div class="col-sm-4 text-left">
-                        <a href="#" class="ml-2">Contact Us</a>
-                        <a href="#" class="ml-2">Support</a>
-                    </div>
-                </div>
-                <!--Footer-->
-
-            </div> <!-- Manage Account -->
-
-            <div id="system_settings" class="col-sm-9 col-xs-12 content pt-3 pl-0 page">
-                <h5 class="mb-3" ><strong>System Settings</strong></h5>
-
-                <div class="row mt-3">
-                    <div class="col-sm-12">
-                        <!--Default elements-->
-                        <div class="mt-1 mb-3 p-3 button-container bg-white border shadow-sm">
-                            
-                            <form class="form-horizontal mt-4 mb-5">
-                                <div class="mb-4">
-                                <input type="file" accept="image/*" onchange="loadClientLogo(event)" style="display:none;" id="load-client-logo-btn">
-                                    <img id="system-settings-client-logo" src="../../system/images/logo.png" onclick="$('#load-client-logo-btn').click()" width="150" >
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-client-name">Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-client-name" placeholder="SkoolTech Solutions" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-client-color">Color:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-client-color" placeholder="#000080" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-1-name">Station 1 Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-1-name" placeholder="Station 1" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-2-name">Station 2 Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-2-name" placeholder="Station 2" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-3-name">Station 3 Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-3-name" placeholder="Station 3" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-4-name">Station 4 Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-4-name" placeholder="Station 4" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-5-name">Station 5 Name:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-5-name" placeholder="Station 5" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-1-prefix">Station 1 Prefix:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-1-prefix" placeholder="A" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-2-prefix">Station 2 Prefix:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-2-prefix" placeholder="B" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-3-prefix">Station 3 Prefix:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-3-prefix" placeholder="C" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-4-prefix">Station 4 Prefix:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-4-prefix" placeholder="D" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="control-label col-sm-2" for="system-settings-station-5-prefix">Station 5 Prefix:</label>
-                                    <div class="col-sm-10">
-                                        <input type="text" class="form-control" id="system-settings-station-5-prefix" placeholder="E" />
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <div class="col-sm-12" align="right">
-                                        <button class="form-control btn bg-theme col-sm-2" onclick="saveSettings()">Save</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!--Footer-->
-                <div class="row mt-5 mb-2 footer">
-                    <div class="col-sm-8 text-right">
-                        <span>&copy; All rights reserved 2021 designed by <a class="text-theme" href="#">SkoolTech Solutions</a></span>
-                    </div>
-                    <div class="col-sm-4 text-left">
-                        <a href="#" class="ml-2">Contact Us</a>
-                        <a href="#" class="ml-2">Support</a>
-                    </div>
-                </div>
-                <!--Footer-->
-
-            </div> <!-- System Settings -->
 
             <div id="profile_settings" class="col-sm-9 col-xs-12 content pt-3 pl-0 page">
                 <h5 class="mb-3" ><strong>Profile Settings</strong></h5>
@@ -477,99 +315,34 @@
 
     <!-- Modals -->
 
-    <!-- Dashboard Modals -->
-    <div class="modal fade" id="delete-queue-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-secondary"><strong>Warning</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p id="delete-queue-modal-message"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Manage Account Modals -->
-    <div class="modal fade" id="manage-account-add-edit-account-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <!-- Accept Queue Modal -->
+    <div class="modal fade" id="dashboard-accept-queue-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="manage-account-add-edit-account-modal-title">Create New Account</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearAddEditAccountModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title">Accept Queue Number</h5>
                 </div>
                 <div class="modal-body">
                     <form>
-                        <div align="center">
-                            <img class="rounded-circle" width="150" src="../../system/images/blank-profile.png" id="account-image">
+                        <h1 class="display-1 text-center" id="dashboard-accept-queue-modal-number"></h1>
+                        <div class="form-group">
+                            <label for="dashboard-accept-queue-modal-name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="dashboard-accept-queue-modal-name" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="account-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" id="account-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-username" class="col-form-label">Username:</label>
-                            <input type="text" class="form-control" id="account-username">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-access" class="col-form-label">Access:</label>
-                            <select class="form-control" id="account-access" onchange="accountAccessChanged()">
-                                <option value="admin">Admin</option>
-                                <option value="station">Station</option>
-                                <option value="machine">Machine</option>
-                            </select>
-                        </div>
-                        <div id="manage-account-station-list-container"></div>
-                        <div class="form-group">
-                            <label for="account-status" class="col-form-label">Status:</label>
-                            <select class="form-control" id="account-status">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
+                            <label for="dashboard-accept-queue-modal-purpose" class="col-form-label">Purpose:</label>
+                            <input type="text" class="form-control" id="dashboard-accept-queue-modal-purpose">
                         </div>
                     </form>
-                    <p id="save-account-error" class="text-danger font-italic small"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAddEditAccountModal()">Close</button>
-                    <button type="button" class="btn btn-primary" id="add-edit-account-modal-save-button" onclick="saveAccount()">Save</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="finishQueueNumber()">Finish</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- System Setting Modals -->
-    <div class="modal" id="client-logo-editor-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-secondary"><strong>Client Logo Editor</strong></h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clientLogoEditorCancel()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <img id="client-logo-editor-buffer">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" onclick="clientLogoEditorRotate()">Rotate</button>
-                    <button type="button" class="btn btn-theme" data-dismiss="modal" id="client-logo-editor-ok-btn">Ok</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Change Password Modal -->
+        <!-- Change Password Modal -->
     <div class="modal fade" id="change-password-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -598,7 +371,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearChangePasswordModal()">Close</button>
-                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="savePassword()">Change</button>
+                    <button type="button" class="btn btn-primary" onclick="savePassword()">Change</button>
                 </div>
             </div>
         </div>
@@ -663,9 +436,7 @@
     
     <!--Custom Js Script-->
     <script src="js/dashboard.js"></script>
-    <script src="js/manage-account.js"></script>
-    <script src="js/system-setting.js"></script>
-    <script src="js/profile_settings.js"></script>
+    <script src="js/profile-setting.js"></script>
     <script src="js/script.js"></script>
   </body>
 </html>

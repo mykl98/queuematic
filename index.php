@@ -21,7 +21,7 @@
         }else{
             global $conn;
             $table = "account";
-            $sql = "SELECT idx,access FROM `$table` WHERE username='$username' && password='$password'";
+            $sql = "SELECT * FROM `$table` WHERE username='$username' && password='$password'";
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     $row = mysqli_fetch_array($result);
@@ -29,7 +29,7 @@
                     $access = $row["access"];
                     $_SESSION["isLoggedIn"] = "true";
                     $_SESSION["access"] = $access;
-                    $_SESSION["idx"] = $idx;
+                    $_SESSION["loginidx"] = $idx;
                     header("location:main");
                     exit();
                 }else{

@@ -1,4 +1,5 @@
 <?php
+include_once "../system/backend/config.php";
     session_start();
     if($_SESSION["isLoggedIn"] == "true"){
         $access = $_SESSION["access"];

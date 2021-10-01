@@ -1,30 +1,39 @@
+var firstQueueIdx;
+var firstQueueFlag;
+
 function getServerData(){
-    $.ajax({
-		type: "POST",
-		url: "backend/dashboard/get-server-data.php",
-		dataType: 'html',
-		data: {
-			dummy:"dummy"
-		},
-		success: function(response){
-			var resp = response.split("*_*");
-			if(resp[0] == "true"){
-				renderServerData(resp[1]);
-			}else if(resp[0] == "false"){
-				alert(resp[1]);
-			} else{
-				alert(response);
-			}
-            setTimeout(function(){
-                getServerData();
-            },reCheckServerDelay)
-		},
-        failure: function(){
-            setTimeout(function(){
-                getServerData();
-            },reCheckServerDelay)
-        }
-	});
+    if(userStation != "" && userStation != undefined){
+        $.ajax({
+            type: "POST",
+            url: "backend/dashboard/get-server-data.php",
+            dataType: 'html',
+            data: {
+                station: userStation
+            },
+            success: function(response){
+                var resp = response.split("*_*");
+                if(resp[0] == "true"){
+                    renderServerData(resp[1]);
+                }else if(resp[0] == "false"){
+                    alert(resp[1]);
+                } else{
+                    alert(response);
+                }
+                setTimeout(function(){
+                    getServerData();
+                },reCheckServerDelay)
+            },
+            failure: function(){
+                setTimeout(function(){
+                    getServerData();
+                },reCheckServerDelay)
+            }
+        });
+    }else{
+        setTimeout(function(){
+            getServerData();
+        },reCheckServerDelay)
+    }
 }
 
 function renderServerData(data){
@@ -43,8 +52,6 @@ function renderServerData(data){
     updateSystem();
     renderQueue(queue);
 }
-
-
 
 function updateSystem(){
     var station;
@@ -95,6 +102,8 @@ function renderQueue(data){
     var station4count = 0;
     var station5count = 0;
 
+    var idxCollector;
+    firstQueueFlag = false;
     var lists = JSON.parse(data);
     var markUp = '<table id="dashboard-table" class="table table-striped table-bordered">\
                         <thead>\
@@ -107,7 +116,12 @@ function renderQueue(data){
                             </tr>\
                         </thead>\
                         <tbody>';
+    idxCollector = "";
     lists.forEach(function(list){
+        if(firstQueueFlag == false){
+            firstQueueFlag = true;
+            idxCollector = list.idx;
+        }
         var bgColor;
         var prefix;
         var stationName;
@@ -147,13 +161,12 @@ function renderQueue(data){
                         <td>' + prefix + list.number +'</td>\
                         <td>' + list.name + '</td>\
                         <td>' + list.purpose + '</td>\
-                        <td> <span class="badge badge-'+ bgColor +'">' + stationName + '</span> </td>\
-                        <td>\
-                            <button class="btn btn-danger" onclick="deleteQueue(\''+ list.idx +'\',\''+ list.name +'\',\''+ list.number +'\')"><i class="fas fa-trash"></i></button>\
-                        </td>\
+                        <td> <span class="badge badge-'+ bgColor +'">' + station1Name + '</span> </td>\
+                        <td></td>\
                     </tr>';
     })
-    markUp += '</tbody></table>';
+    firstQueueIdx = idxCollector;
+    markUp += '</tbody></table';
 
     $("#dashboard-table-container").html(markUp);
     $("#dashboard-table").DataTable();
@@ -165,22 +178,22 @@ function renderQueue(data){
     $("#dashboard_station_5_queue").html(station5count + " Currently in Queue.")
 
     var total = station1count + station2count + station3count + station4count + station5count;
-    $("#dashboard_now_serving_queue").html(total + " Total number of Queue.")
+    $("#dashboard_now_serving_queue").html(total + " Currently in Queue.")
 }
 
-function deleteQueue(idx,name,number){
-    if(confirm("Are you sure your want to delete " + name + "'s Queue with a queue number of " + number)){
+function acceptQueue(){
+    if(firstQueueIdx != "" && firstQueueIdx != undefined){
         $.ajax({
             type: "POST",
-            url: "backend/dashboard/delete-queue.php",
+            url: "backend/dashboard/get-queue-detail.php",
             dataType: 'html',
             data: {
-                idx:idx
+                idx:firstQueueIdx
             },
             success: function(response){
                 var resp = response.split("*_*");
                 if(resp[0] == "true"){
-                    alert(resp[1]);
+                    renderQueueDetail(resp[1]);
                 }else if(resp[0] == "false"){
                     alert(resp[1]);
                 } else{
@@ -189,4 +202,65 @@ function deleteQueue(idx,name,number){
             }
         });
     }
+}
+
+function renderQueueDetail(data){
+    var lists = JSON.parse(data);
+    var queueStation;
+    var queueNumber;
+    var queueName;
+    var queuePurpose;
+    lists.forEach(function(list){
+        queueName = list.name;
+        queuePurpose = list.purpose;
+        queueStation = list.station;
+        queueNumber = list.number;
+    })
+    var queuePrefix;
+    switch(queueStation){
+        case "1":
+            queuePrefix = station1Prefix;
+            break;
+        case "2":
+            queuePrefix = station2Prefix;
+             break;
+        case "3":
+            queuePrefix = station3Prefix;
+            break;
+        case "4":
+            queuePrefix = station4Prefix;
+            break;
+        case "5":
+            queuePrefix = station5Prefix;
+            break;
+    }
+
+    $("#dashboard-accept-queue-modal-number").text(queuePrefix + queueNumber);
+
+    $("#dashboard-accept-queue-modal-name").val(queueName);
+    $("#dashboard-accept-queue-modal-purpose").val(queuePurpose);
+
+    $("#dashboard-accept-queue-modal").modal("show");
+}
+
+function finishQueueNumber(){
+    $.ajax({
+        type: "POST",
+        url: "backend/dashboard/finish-queue.php",
+        dataType: 'html',
+        data: {
+            idx:firstQueueIdx
+        },
+        success: function(response){
+            console.log(response);
+            var resp = response.split("*_*");
+            if(resp[0] == "true"){
+                alert(resp[1]);
+            }else if(resp[0] == "false"){
+                alert(resp[1]);
+            } else{
+                alert(response);
+            }
+        }
+    });
 }

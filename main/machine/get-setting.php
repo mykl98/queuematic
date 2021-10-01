@@ -35,6 +35,23 @@
                         if($row["name"] == "counter5name"){
                             $value -> counter5name = $row["value"];
                         }
+                        
+                        if($row["name"] == "counter1prefix"){
+                            $value -> counter1prefix = $row["value"];
+                        }
+                        if($row["name"] == "counter2prefix"){
+                            $value -> counter2prefix = $row["value"];
+                        }
+                        if($row["name"] == "counter3prefix"){
+                            $value -> counter3prefix = $row["value"];
+                        }
+                        if($row["name"] == "counter4prefix"){
+                            $value -> counter4prefix = $row["value"];
+                        }
+                        if($row["name"] == "counter5prefix"){
+                            $value -> counter5prefix = $row["value"];
+                        }
+                        
                         if($row["name"] == "counter1serving"){
                             $value -> counter1serving = $row["value"];
                         }

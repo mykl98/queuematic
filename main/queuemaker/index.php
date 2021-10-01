@@ -29,14 +29,14 @@
             echo "Token Expired!";
         }
     }else{
-        echo "Access Denied!";
+        //echo "Access Denied!";
     }
 ?>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../system/vendor/jquery-modal/css/jquery-modal.min.css">
+    <link rel="stylesheet" href="../../system/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -63,18 +63,39 @@
             <p id="station_5_label" class="station_label">Counter 5</p>
             <p id="station_5_number" class="station_number">0</p>
         </div>
-        <div id="modal_1" class="modal">
-            <p id="modal_1_header_text"></p>
-            <p class="modal_1_tag">Name:</p>
-            <input type="text" id="client_name">
-            <p class="modal_1_tag">Purpose:</p>
-            <textarea id="client_purpose"></textarea>
-            <p id="modal_1_error"></p>
-            <input id="modal_1_submit_button" type="submit" value="Submit" onclick="modal1Response()">
-        </div>
     </div><!-- wrapper -->
-<script src="../../system/vendor/jquery/jquery.min.js"></script>
-<script src="../../system/vendor/jquery-modal/js/jquery-modal.min.js"></script>
+    <!-- modals -->
+    <div class="modal fade" id="add-queue-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-secondary" id="add-queue-modal-header"><strong>Add Queue</strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="add-queue-modal-client_name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="add-queue-modal-client_name">
+                        </div>
+                        <div class="form-group">
+                            <label for="add-queue-modal-client-purpose" class="col-form-label">Purpose:</label>
+                            <textarea class="form-control" id="add-queue-modal-client-purpose"></textarea>
+                        </div>
+                    </form>
+                    <p id="add-queue-error" class="text-danger font-italic small"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" onclick="addQueue()">Add</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="../../system/vendor/jquery/js/jquery.min.js"></script>
+<script src="../../system/vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

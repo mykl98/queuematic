@@ -13,11 +13,19 @@ var update;
 var clientName;
 var logo;
 var color;
+
 var counter1name;
 var counter2name;
 var counter3name;
 var counter4name;
 var counter5name;
+
+var counter1prefix;
+var counter2prefix;
+var counter3prefix;
+var counter4prefix;
+var counter5prefix;
+
 var currCounter1Serving;
 var currCounter2Serving;
 var currCounter3Serving;
@@ -96,6 +104,14 @@ function renderSettings(data){
         counter3name = list.counter3name;
         counter4name = list.counter4name;
         counter5name = list.counter5name;
+
+        counter1prefix = list.counter1prefix;
+        counter2prefix = list.counter2prefix;
+        counter3prefix = list.counter3prefix;
+        counter4prefix = list.counter4prefix;
+        counter5prefix = list.counter5prefix;
+
+        //console.log(counter1prefix);
     })
     if(clientName == ""){
         clientName = "SkoolTech Solutions"
@@ -124,55 +140,56 @@ function renderSettings(data){
 function updateMachine(){
     if(prevCounter1Serving != currCounter1Serving){
         prevCounter1Serving = currCounter1Serving;
-        $("#station_1_number").text(prevCounter1Serving);
-        $("#now_serving_number").text(prevCounter1Serving);
+        console.log(counter1prefix);
+        $("#station_1_number").text(counter1prefix + prevCounter1Serving);
+        $("#now_serving_number").text(counter1prefix + prevCounter1Serving);
         $("#now_serving_counter").text(counter1name);
         flashCount = 10;
-        var textToSay = "Attention... Client with. queue number. " + prevCounter1Serving + ". Please proceed to. " + counter1name;
+        var textToSay = "Attention... Client with queue number. "+ counter1prefix + prevCounter1Serving + ". Please proceed to. " + counter1name;
         speak(textToSay);
         speak(textToSay);
         speak(textToSay);
     }
     if(prevCounter2Serving != currCounter2Serving){
         prevCounter2Serving = currCounter2Serving;
-        $("#station_2_number").text(prevCounter2Serving);
-        $("#now_serving_number").text(prevCounter2Serving);
+        $("#station_2_number").text(counter2prefix + prevCounter2Serving);
+        $("#now_serving_number").text(counter2prefix + prevCounter2Serving);
         $("#now_serving_counter").text(counter2name);
         flashCount = 10;
-        var textToSay = "Attention... Client with. queue number. " + prevCounter2Serving + ". Please proceed to. " + counter2name;
+        var textToSay = "Attention... Client with queue number. "+ counter2prefix  + prevCounter2Serving + ". Please proceed to. " + counter2name;
         speak(textToSay);
         speak(textToSay);
         speak(textToSay);
     }
     if(prevCounter3Serving != currCounter3Serving){
         prevCounter3Serving = currCounter3Serving;
-        $("#station_1_number").text(prevCounter3Serving);
-        $("#now_serving_number").text(prevCounter3Serving);
+        $("#station_3_number").text(counter3prefix + prevCounter3Serving);
+        $("#now_serving_number").text(counter3prefix + prevCounter3Serving);
         $("#now_serving_counter").text(counter3name);
         flashCount = 10;
-        var textToSay = "Attention... Client with. queue number. " + prevCounter3Serving + ". Please proceed to. " + counter3name;
+        var textToSay = "Attention... Client with queue number. "+ counter3prefix  + prevCounter3Serving + ". Please proceed to. " + counter3name;
         speak(textToSay);
         speak(textToSay);
         speak(textToSay);
     }
     if(prevCounter4Serving != currCounter4Serving){
         prevCounter4Serving = currCounter4Serving;
-        $("#station_1_number").text(prevCounter4Serving);
-        $("#now_serving_number").text(prevCounter4Serving);
+        $("#station_4_number").text(counter4prefix + prevCounter4Serving);
+        $("#now_serving_number").text(counter4prefix + prevCounter4Serving);
         $("#now_serving_counter").text(counter4name);
         flashCount = 10;
-        var textToSay = "Attention... Client with. queue number. " + prevCounter4Serving + ". Please proceed to. " + counter4name;
+        var textToSay = "Attention... Client with. queue number. "+ counter4prefix  + prevCounter4Serving + ". Please proceed to. " + counter4name;
         speak(textToSay);
         speak(textToSay);
         speak(textToSay);
     }
     if(prevCounter5Serving != currCounter5Serving){
         prevCounter5Serving = currCounter5Serving;
-        $("#station_1_number").text(prevCounter5Serving);
-        $("#now_serving_number").text(prevCounter5Serving);
+        $("#station_5_number").text(counter5prefix + prevCounter5Serving);
+        $("#now_serving_number").text(counter5prefix + prevCounter5Serving);
         $("#now_serving_counter").text(counter5name);
         flashCount = 10;
-        var textToSay = "Attention... Client with. queue number. " + prevCounter5Serving + ". Please proceed to. " + counter5name;
+        var textToSay = "Attention... Client with. queue number. "+ counter5prefix  + prevCounter5Serving + ". Please proceed to. " + counter5name;
         speak(textToSay);
         speak(textToSay);
         speak(textToSay);
@@ -275,7 +292,5 @@ function renderDataFromServer(data){
         currCounter5Serving = list.counter5serving;
     })
 
-    if(update == 'true'){
-        updateMachine();
-    }
+    updateMachine();
 }

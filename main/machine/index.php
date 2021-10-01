@@ -62,7 +62,7 @@ if($_SESSION["isLoggedIn"] != "true"){
             </marquee>
         </div>
     </div> <!-- wrapper -->
-<script src="../../system/vendor/jquery/jquery.min.js"></script>
+<script src="../../system/vendor/jquery/js/jquery.min.js"></script>
 <script src="../../system/vendor/qr/qr.min.js"></script>
 <script src="../../system/js/script.js"></script>
 <script src="script.js"></script>

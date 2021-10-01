@@ -10,7 +10,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../system/vendor/jquery-modal/css/jquery-modal.min.css">
+    <link rel="stylesheet" href="../../system/vendor/bootstrap/js/bootstrap.min.js">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,8 +28,8 @@
             </div>
         </div>
     </div>
-    <script src="../../system/vendor/jquery/jquery.min.js"></script>
-    <script src="../../system/vendor/jquery-modal/js/jquery-modal.min.js"></script>
+    <script src="../../system/vendor/jquery/js/jquery.min.js"></script>
+    <script src="../../system/vendor/bootstrap/js/bootstrap.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

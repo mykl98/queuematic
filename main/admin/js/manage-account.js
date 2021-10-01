@@ -56,9 +56,9 @@ function renderAccountList(data){
                         <td>'+list.access+'</td>\
                         <td>'+list.status+'</td>\
                         <td>\
-                            <button class="btn btn-theme" onclick="viewAccount('+ list.idx +','+list.name+')"><i class="fas fa-eye"></i></button>\
-                            <button class="btn btn-success" onclick="editAccount('+ list.idx +','+list.name+')"><i class="fa fa-pencil"></i></button>\
-                            <button class="btn btn-danger" onclick="deleteAccount('+ list.idx +','+list.name+')"><i class="fas fa-trash"></i></button>\
+                            <button class="btn btn-theme" onclick="viewAccount(\''+ list.idx +'\',\''+list.name+'\')"><i class="fas fa-eye"></i></button>\
+                            <button class="btn btn-success" onclick="editAccount(\''+ list.idx +'\',\''+list.name+'\')"><i class="fa fa-pencil"></i></button>\
+                            <button class="btn btn-danger" onclick="deleteAccount(\''+ list.idx +'\',\''+list.name+'\')"><i class="fas fa-trash"></i></button>\
                         </td>\
                    </tr>';
     })

@@ -32,6 +32,12 @@ var counter3name;
 var counter4name;
 var counter5name;
 
+var counter1prefix;
+var counter2prefix;
+var counter3prefix;
+var counter4prefix;
+var counter5prefix;
+
 var station;
 
 $(document).ready(function(){
@@ -90,31 +96,31 @@ function renderServerUpdate(data){
 function updateSystem(){
     if(prevCounter1Serving != currCounter1Serving && currCounter1Serving != 0){
         prevCounter1Serving = currCounter1Serving;
-        $("#station_1_number").text(prevCounter1Serving);
+        $("#station_1_number").text(counter1prefix + prevCounter1Serving);
         flash1Count = 20;
     }
 
     if(prevCounter2Serving != currCounter2Serving && currCounter2Serving != 0){
         prevCounter2Serving = currCounter2Serving;
-        $("#station_2_number").text(prevCounter2Serving);
+        $("#station_2_number").text(counter2prefix + prevCounter2Serving);
         flash2Count = 20;
     }
 
     if(prevCounter3Serving != currCounter3Serving && currCounter3Serving != 0){
         prevCounter3Serving = currCounter3Serving;
-        $("#station_3_number").text(prevCounter3Serving);
+        $("#station_3_number").text(counter3prefix + prevCounter3Serving);
         flash3Count = 20;
     }
 
     if(prevCounter4Serving != currCounter4Serving && currCounter4Serving != 0){
         prevCounter4Serving = currCounter4Serving;
-        $("#station_4_number").text(prevCounter4Serving);
+        $("#station_4_number").text(counter4prefix + prevCounter4Serving);
         flash4Count = 20;
     }
 
     if(prevCounter5Serving != currCounter5Serving && currCounter5Serving != 0){
         prevCounter5Serving = currCounter5Serving;
-        $("#station_5_number").text(prevCounter5Serving);
+        $("#station_5_number").text(counter5prefix + prevCounter5Serving);
         flash5Count = 20;
     }
 }
@@ -204,6 +210,12 @@ function renderSettings(data){
         counter3name = list.counter3name;
         counter4name = list.counter4name;
         counter5name = list.counter5name;
+
+        counter1prefix = list.counter1prefix;
+        counter2prefix = list.counter2prefix;
+        counter3prefix = list.counter3prefix;
+        counter4prefix = list.counter4prefix;
+        counter5prefix = list.counter5prefix;
         color = list.color;
     })
     if(logo == ""){
@@ -249,24 +261,20 @@ function showModal(stationNumber){
             text = counter5name;
             break;
     }
-    $("#modal_1_header_text").text(text);
-    $("#modal_1").modal({
-        fadeDuration: 100,
-        escapeClose: false,
-        clickClose: false
-    })
+    $("#add-queue-modal-header").text("Add queue to " + text);
+    $("#add-queue-modal").modal("show");
 }
 
-function modal1Response(){
-    var clientName = $("#client_name").val();
-    var purpose = $("#client_purpose").val();
-    if(clientName == "" || clientName == undefined){
-        $("#modal_1_error").text("*Name field should not be empty.");
+function addQueue(){
+    var name = $("#add-queue-modal-client_name").val();
+    var purpose = $("#add-queue-modal-client-purpose").val();
+    if(name == "" || name == undefined){
+        $("#add-queue-error").text("*Name field should not be empty.")
     }else if(purpose == "" || purpose == undefined){
-        $("#modal_1_error").text("*Purpose field should not be empty.");
+        $("#add-queue-error").text("*Purpose field should not be empty.");
     }else{
-        $("#modal_1_error").text("");
-        $("#modal_1").modal("hide");
+        $("#add-queue-error").text("");
+        $("#add-queue-modal").modal("hide");
 
         $.ajax({
             type: "POST",
@@ -274,7 +282,7 @@ function modal1Response(){
             dataType: 'html',
             data: {
                 station:station,
-                name: clientName,
+                name: name,
                 purpose: purpose
             },
             success: function(response){
@@ -282,7 +290,6 @@ function modal1Response(){
                 if(resp[0] == "true"){
                     var idx = resp[1];
                     window.open("http://localhost/queuematic/main/que-number","_self")
-                    console.log(idx);
                 }else if(resp[0] == "false"){
                     alert(resp[1]);
                 } else{

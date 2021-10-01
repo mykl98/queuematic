@@ -1,3 +1,5 @@
+var userStation;
+
 var flashCount;
 var flashFlag = false;
 
@@ -43,8 +45,8 @@ $(document).ready(function() {
     toggle_menu("dashboard");
 
     /*===============Page Loader=====================*/
-
-    getSettings();
+    
+    getSettings(); // ok
     getUserDetails();
     startHalfSec();
 });
@@ -94,43 +96,46 @@ function renderSettings(data){
         station5Prefix = list.station5prefix;
 
     })
-
     updateGlobalSettings();
 }
 
 function getUserDetails(){
+    var idx = $("#user-global-name").text();
     $.ajax({
-        type: "POST",
-        url: "backend/profile-settings/get-profile-settings.php",
-        dataType: 'html',
-        data: {
-            dummy:"dummy"
-        },
-        success: function(response){
-            var resp = response.split("*_*");
-            if(resp[0] == "true"){
-                renderUserDetails(resp[1]);
-            }else if(resp[0] == "false"){
-                alert(resp[1]);
-            } else{
-                alert(response);
-            }
-        }
-    });
+		type: "POST",
+		url: "backend/dashboard/get-user-detail.php",
+		dataType: 'html',
+		data: {
+			idx:idx
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				renderUserDetail(resp[1]);
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
 }
 
-function renderUserDetails(data){
+function renderUserDetail(data){
     var lists = JSON.parse(data);
 
     lists.forEach(function(list){
         userImage = list.image;
         userName = list.name;
         userUsername = list.username;
+        userStation = list.station;
     })
 
     if(userImage == ""){
         userImage = "../../system/images/blank-profile.png";
     }
+
+    updateGlobalProfileSettings();
 }
 
 function updateGlobalSettings(){
@@ -194,14 +199,6 @@ function toggle_menu(page) {
         case "dashboard":
             $("#dashboard").show();
             break;
-        case "manage_account":
-            $("#manage_account").show();
-            updateManageAccount();
-            break;
-        case "system_settings":
-            $("#system_settings").show();
-            updateSystemSettings();
-            break;
         case "profile_settings":
             $("#profile_settings").show();
             updateProfileSettings();
@@ -210,6 +207,7 @@ function toggle_menu(page) {
 }
 
 function logout(){
+    console.log("test");
     $.ajax({
         type: "POST",
         url: "backend/logout.php",
@@ -218,6 +216,7 @@ function logout(){
             dummy:"dummy"
         },
         success: function(response){
+            console.log(response);
             var resp = response.split("*_*");
             if(resp[0] == "true"){
                 window.open("../../index.php","_self")
