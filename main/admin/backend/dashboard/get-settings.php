@@ -20,6 +20,9 @@
                         if($row["name"] == "color"){
                             $value -> color = $row["value"];
                         }
+                        if($row["name"] == "ip"){
+                            $value -> ip = $row["value"];
+                        }
                         if($row["name"] == "counter1name"){
                             $value -> station1name = $row["value"];
                         }

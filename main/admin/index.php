@@ -333,6 +333,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <label class="control-label col-sm-2" for="system-settings-client-ip">IP Address:</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" id="system-settings-client-ip" placeholder="192.168.1.10" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
                                     <label class="control-label col-sm-2" for="system-settings-station-1-name">Station 1 Name:</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" id="system-settings-station-1-name" placeholder="Station 1" />

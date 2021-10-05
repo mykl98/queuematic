@@ -11,6 +11,7 @@ function getSystemSettings(){
     $("#system-settings-client-logo").attr("src", logo);
     $("#system-settings-client-name").val(clientName);
     $("#system-settings-client-color").val(color);
+    $("#system-settings-client-ip").val(ip);
 
     $("#system-settings-station-1-name").val(station1Name);
     $("#system-settings-station-2-name").val(station2Name);
@@ -29,6 +30,7 @@ function saveSettings(){
     logo = $('#system-settings-client-logo').attr('src');
     clientName = $("#system-settings-client-name").val();
     color = $("#system-settings-client-color").val();
+    ip = $("#system-settings-client-ip").val();
 
     station1Name = $("#system-settings-station-1-name").val();
     station2Name = $("#system-settings-station-2-name").val();
@@ -46,6 +48,8 @@ function saveSettings(){
         alert("Name field should not be empty")
     }else if(color == "" || color == undefined){
         alert("Color field should not be empty!");
+    }else if(ip == "" || ip == undefined){
+        alert("IP Address field should not be empty!");
     }else if(station1Name == "" || station1Name == undefined){
         alert("Station 1 Name field should not be empty!");
     }else if(station2Name == "" || station2Name == undefined){
@@ -75,6 +79,7 @@ function saveSettings(){
                 logo: logo,
                 name: clientName,
                 color: color,
+                ip:ip,
                 station1name: station1Name,
                 station2name: station2Name,
                 station3name: station3Name,

@@ -1,3 +1,4 @@
+var ip = "192.168.1.10";
 var flashCount;
 var flashFlag = false;
 
@@ -92,6 +93,8 @@ function renderSettings(data){
         station3Prefix = list.station3prefix;
         station4Prefix = list.station4prefix;
         station5Prefix = list.station5prefix;
+
+        ip = list.ip;
 
     })
 

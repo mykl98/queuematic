@@ -13,12 +13,14 @@
             }
         }
 
-        function saveSettings($logo,$name,$color,$station1name,$station2name,$station3name,$station4name,$station5name,$station1prefix,$station2prefix,$station3prefix,$station4prefix,$station5prefix){
+        function saveSettings($logo,$name,$color,$ip,$station1name,$station2name,$station3name,$station4name,$station5name,$station1prefix,$station2prefix,$station3prefix,$station4prefix,$station5prefix){
             if(updateSetting("logo",$logo) == "false"){
                 return "System Error";
             }else if(updateSetting("name",$name) == "false"){
                 return "System Error1!";
             }else if(updateSetting("color",$color) == "false"){
+                return "System Error2!";
+            }else if(updateSetting("ip",$ip) == "false"){
                 return "System Error2!";
             }else if(updateSetting("counter1name",$station1name) == "false"){
                 return "System Error3!";
@@ -50,6 +52,7 @@
             $logo = $_POST["logo"];
             $name = sanitize($_POST["name"]);
             $color = sanitize($_POST["color"]);
+            $ip = sanitize($_POST["ip"]);
             $station1name = sanitize($_POST["station1name"]);
             $station2name = sanitize($_POST["station2name"]);
             $station3name = sanitize($_POST["station3name"]);
@@ -60,7 +63,7 @@
             $station3prefix = sanitize($_POST["station3prefix"]);
             $station4prefix = sanitize($_POST["station4prefix"]);
             $station5prefix = sanitize($_POST["station5prefix"]);
-            echo saveSettings($logo,$name,$color,$station1name,$station2name,$station3name,$station4name,$station5name,$station1prefix,$station2prefix,$station3prefix,$station4prefix,$station5prefix);
+            echo saveSettings($logo,$name,$color,$ip,$station1name,$station2name,$station3name,$station4name,$station5name,$station1prefix,$station2prefix,$station3prefix,$station4prefix,$station5prefix);
         }else{
             echo "Access Denied!";
         }

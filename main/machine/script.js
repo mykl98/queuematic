@@ -1,5 +1,6 @@
 var flashFlag = "false";
 var flashCount = 0;
+var ip = "192.168.1.10";
 
 var prevCounter1Serving = 0;
 var prevCounter2Serving = 0;
@@ -32,43 +33,19 @@ var currCounter3Serving;
 var currCounter4Serving;
 var currCounter5Serving;
 
-var baseLink = "http://192.168.1.17/queuematic/main/queuemaker/index.php?token=";
-var tokenExpireCount = 0;
-
 $(document).ready(function(){
     getSettings();
     runOneSecInterval();
-    generateQRCode(generateRandomId(100));
 })
             
-function generateQRCode() {
-    tokenExpireCount = 120;
-    $.ajax({
-		type: "POST",
-		url: "generate-token.php",
-		dataType: 'html',
-		data: {
-			dummy:"dummy"
-		},
-		success: function(response){
-			var resp = response.split("*_*");
-			if(resp[0] == "true"){
-				var text = baseLink + resp[1];
-                console.log(text);
-                (function() {
-                    qr = new QRious({
-                        element: document.getElementById('qr_code'),
-                        size: 150,
-                        value: text
-                    });
-                })();
-			}else if(resp[0] == "false"){
-				alert(resp[1]);
-			} else{
-				alert(response);
-			}
-		}
-	});
+function displayQRCode(text){
+    (function() {
+        qr = new QRious({
+            element: document.getElementById('qr_code'),
+            size: 150,
+            value: text
+        });
+    })();
 }
 
 function getSettings(){
@@ -111,7 +88,9 @@ function renderSettings(data){
         counter4prefix = list.counter4prefix;
         counter5prefix = list.counter5prefix;
 
-        //console.log(counter1prefix);
+        ip = list.ip;
+        var text = "http://" + ip + "/queuematic/main/queuemaker";
+        displayQRCode(text);
     })
     if(clientName == ""){
         clientName = "SkoolTech Solutions"

@@ -70,6 +70,9 @@
                         if($row["name"] == "color"){
                             $value -> color = $row["value"];
                         }
+                        if($row["name"] == "ip"){
+                            $value -> ip = $row["value"];
+                        }
                     }
                     array_push($data, $value);
                 }

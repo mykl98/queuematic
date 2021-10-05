@@ -1,3 +1,4 @@
+var ip = "192.168.1.10";
 var reCheckServerDelay = 2000;
 var flash1Count = 0;
 var flash2Count = 0;
@@ -217,6 +218,8 @@ function renderSettings(data){
         counter4prefix = list.counter4prefix;
         counter5prefix = list.counter5prefix;
         color = list.color;
+
+        ip = list.ip;
     })
     if(logo == ""){
         logo = "../../system/images/logo.png";
@@ -289,7 +292,9 @@ function addQueue(){
                 var resp = response.split("*_*");
                 if(resp[0] == "true"){
                     var idx = resp[1];
-                    window.open("http://localhost/queuematic/main/que-number","_self")
+                    var link = "http://" + ip + "/queuematic/main/que-number/index.php";
+                    //alert(link);
+                    window.open(link,"_self")
                 }else if(resp[0] == "false"){
                     alert(resp[1]);
                 } else{

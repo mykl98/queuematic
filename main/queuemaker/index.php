@@ -96,6 +96,6 @@
     </div>
 <script src="../../system/vendor/jquery/js/jquery.min.js"></script>
 <script src="../../system/vendor/bootstrap/js/bootstrap.min.js"></script>
-<script src="script.js"></script>
+<script src="script.js?c=1"></script>
 </body>
 </html>

@@ -63,7 +63,6 @@
         function setAppointment($station,$name,$purpose){
             global $conn;
             $number = getLastNumber($station);
-            saveLog($number);
             $number = $number + 1;
             $table = "queue";
             $sql = "INSERT INTO `$table` (number,name,purpose,station) VALUES ('$number','$name','$purpose','$station')";
