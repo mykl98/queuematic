@@ -32,20 +32,62 @@ if($_POST){
         }
     }
 
+    function getPrevName($idx){
+        global $conn;
+        $name = "";
+        $table = "station";
+        $sql = "SELECT name FROM `$table` WHERE idx='$idx'";
+        if($result=mysqli_query($conn,$sql)){
+            if(mysqli_num_rows($result) > 0){
+                $row = mysqli_fetch_array($result);
+                $name = $row["name"];
+            }
+        }
+        return $name;
+    }
+
+    function getPrevPrefix($idx){
+        global $conn;
+        $prefix = "";
+        $table = "station";
+        $sql = "SELECT prefix FROM `$table` WHERE idx='$idx'";
+        if($result=mysqli_query($conn,$sql)){
+            if(mysqli_num_rows($result) > 0){
+                $row = mysqli_fetch_array($result);
+                $prefix = $row["prefix"];
+            }
+        }
+        return $prefix;
+    }
+
     function saveStation($idx,$image,$name,$prefix,$status){
-        $check = checkIfNameExist($name);
-        if($check != "true"){
-            return $check;
-        }
-        $check = checkIfPrefixExist($prefix);
-        if($check != "true"){
-            return $check;
-        }
         global $conn;
         $table = "station";
         if($idx == ""){
+            $check = checkIfNameExist($name);
+            if($check != "true"){
+                return $check;
+            }
+            $check = checkIfPrefixExist($prefix);
+            if($check != "true"){
+                return $check;
+            }
             $sql = "INSERT INTO `$table` (image,name,prefix,status) VALUES ('$image','$name','$prefix','$status')";
         }else{
+            $get = getPrevName($idx);
+            if($get != $name){
+                $check = checkIfNameExist($name);
+                if($check != "true"){
+                    return $check;
+                }
+            }
+            $get = getPrevPrefix($idx);
+            if($get != $prefix){
+                $check = checkIfPrefixExist($prefix);
+                if($check != "true"){
+                    return $check;
+                }
+            }
             $sql = "UPDATE `$table` SET image='$image',name='$name',prefix='$prefix',status='$status' WHERE idx='$idx'";
         }
         if(mysqli_query($conn,$sql)){

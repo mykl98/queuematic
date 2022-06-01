@@ -143,10 +143,10 @@
                             <label for="account-access" class="col-form-label">Access:</label>
                             <select class="form-control" id="account-access" onchange="accessChange()">
                                 <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
-                                <option value="enforcer">Enforcer</option>
+                                <option value="station">Station</option>
                             </select>
                         </div>
+                        <div id="station-select-container"></div>
                         <div id="club-select-container"></div>
                         <div class="form-group">
                             <label for="account-status" class="col-form-label">Status:</label>

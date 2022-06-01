@@ -44,6 +44,8 @@
                             $value -> number = getStationPrefix($row["station"]) . $row["number"];
                             $value -> date = $row["date"];
                             $value -> time = $row["time"];
+                            $value -> name = $row["name"];
+                            $value -> purpose = $row["purpose"];
                             $value -> station = getStationName($row["station"]);
                             $value -> status = $row["status"];
                             array_push($data,$value);

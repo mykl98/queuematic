@@ -15,6 +15,7 @@
                     $value -> name = $row["name"];
                     $value -> username = $row["username"];
                     $value -> access = $row["access"];
+                    $value -> station = $row["station"];
                     $value -> status = $row["status"];
                     array_push($data,$value);
                 }

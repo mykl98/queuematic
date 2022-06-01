@@ -2,11 +2,25 @@
     if($_POST){
         include_once "../../../system/backend/config.php";
 
+        function getStationName($idx){
+            global $conn;
+            $name = "";
+            $table = "station";
+            $sql = "SELECT name FROM `$table` WHERE idx='$idx'";
+            if($result=mysqli_query($conn,$sql)){
+                if(mysqli_num_rows($result) > 0){
+                    $row = mysqli_fetch_array($result);
+                    $name = $row["name"];
+                }
+            }
+            return $name;
+        }
+
         function getAccountList(){
             global $conn;
             $data = array();
             $table = "account";
-            $sql = "SELECT * FROM `$table` WHERE access='admin' || access='enforcer' || access='staff' ORDER by idx DESC";
+            $sql = "SELECT * FROM `$table` ORDER by idx DESC";
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     while($row=mysqli_fetch_array($result)){
@@ -16,6 +30,7 @@
                             $value -> name = $row["name"];
                             $value -> username = $row["username"];
                             $value -> access = $row["access"];
+                            $value -> station = getStationName($row["station"]);
                             $value -> status = $row["status"];
 
                             array_push($data,$value);

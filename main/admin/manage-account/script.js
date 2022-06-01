@@ -20,8 +20,8 @@ $(".modal").on("hidden.bs.modal",function(){
 })
 
 getAccountList();
+getStationList();
 getUserDetails();
-var baseUrl = $("#base-url").text();
 
 function getUserDetails(){
     $.ajax({
@@ -85,6 +85,7 @@ function renderAccountList(data){
                                 <th>Name</th>\
                                 <th>Username</th>\
                                 <th>Access</th>\
+                                <th>Station</th>\
                                 <th>Status</th>\
                                 <th style="max-width:50px;min-width:50px;">Action</th>\
                             </tr>\
@@ -95,6 +96,7 @@ function renderAccountList(data){
                         <td>'+list.name+'</td>\
                         <td>'+list.username+'</td>\
                         <td>'+list.access+'</td>\
+                        <td>'+list.station+'</td>\
                         <td>'+list.status+'</td>\
                         <td>\
                             <button class="btn btn-success btn-sm" onclick="editAccount(\''+ list.idx +'\')"><i class="fa fa-pencil"></i></button>\
@@ -107,16 +109,65 @@ function renderAccountList(data){
     $("#manage-account-table").DataTable();
 }
 
+function getStationList(){
+    $.ajax({
+		type: "POST",
+		url: "get-station-list.php",
+		dataType: 'html',
+		data: {
+			dummy:"dummy"
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				renderStationList(resp[1]);
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
+}
+
+function renderStationList(data){
+    var lists = JSON.parse(data);
+    var markUp = '<div class="form-group" id="station-container">\
+                        <label for="account-station" class="col-form-label">Station:</label>\
+                        <select class="form-control" id="account-station">\
+                            <option value="">SELECT STATION</option>';
+    lists.forEach(function(list){
+        markUp += '<option value="'+list.idx+'">'+list.name+'</option>';
+    })
+    markUp += '</select></div>';
+    $("#station-select-container").html(markUp);
+    $("#station-container").hide();
+}
+
+function accessChange(){
+    var access = $("#account-access").val();
+    //alert(access);
+    if(access == "station"){
+        $("#station-container").show();
+    }else{
+        $("#account-station").val("");
+        $("#station-container").hide();
+    }
+}
+
 function addAccount(){
     manageAccountIdx = "";
     $("#add-edit-account-modal").modal("show");
+    $("#add-edit-account-modal-title").text("Add New Account");
     $("#save-account-error").text("");
+    accessChange();
 }
 
 function saveAccount(){
     var name = $("#account-name").val();
     var username = $("#account-username").val();
     var access = $("#account-access").val();
+    var station = $("#account-station").val();
     var status = $("#account-status").val();
 
     var error = "";
@@ -126,6 +177,8 @@ function saveAccount(){
         error = "*Username field should not be empty.";
     }else if(access == "" || access == undefined){
         error = "*Please select access level!";
+    }else if(access == "station" && station == ""){
+        error = "*Please select station!";
     }else{
         $.ajax({
             type: "POST",
@@ -136,6 +189,7 @@ function saveAccount(){
                 name:name,
                 username:username,
                 access:access,
+                station:station,
                 status:status
             },
             success: function(response){
@@ -151,7 +205,6 @@ function saveAccount(){
             }
         });
     }
-
     $("#save-account-error").text(error);
 }
 
@@ -185,6 +238,8 @@ function renderEditAccount(data){
         $("#account-username").val(list.username);
         $("#account-access").val(list.access);
         $("#account-status").val(list.status);
+        $("#account-station").val(list.station);
+        accessChange();
 
         $("#add-edit-account-modal-title").text("Edit " + list.name + "'s Account Details");
     })
@@ -227,7 +282,7 @@ function logout(){
         success: function(response){
             var resp = response.split("*_*");
             if(resp[0] == "true"){
-                window.open(baseUrl + "/index.php","_self")
+                window.open("../../../index.php","_self")
             }else if(resp[0] == "false"){
                 alert(resp[1]);
             } else{
