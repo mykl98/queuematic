@@ -5,19 +5,22 @@ include_once "../system/backend/config.php";
         $access = $_SESSION["access"];
         switch ($access){
             case "admin":
-                header("location:admin");
-                exit();
-                break;
-            case "machine":
-                header("location:machine");
+                header("location:admin/queue-manager");
                 exit();
                 break;
             case "station":
-                header("location:station");
-                exit();
+                $saccess = $_SESSION["saccess"];
+                if($saccess == "admin"){
+                    header("location:station/admin/queue-manager");
+                    exit();
+                }else if($saccess == "staff"){
+                    header("location:station/staff/queue-manager");
+                    exit();
+                }
                 break;
         }
     }else{
+        session_destroy();
         header("location:../index.php");
         exit();
     }

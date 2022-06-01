@@ -9,6 +9,11 @@ Version: 1.0
 /*@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700,900');*/
 
 /* ======= General Rules ======== */
+@media only screen and (max-width:600px){
+    #title{
+        display: none;
+    }
+}
 html {
     width: 100%;
     margin: 0;

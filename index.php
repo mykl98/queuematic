@@ -26,9 +26,13 @@
                 if(mysqli_num_rows($result) > 0){
                     $row = mysqli_fetch_array($result);
                     $idx = $row["idx"];
+                    $station = $row["station"];
                     $access = $row["access"];
+                    $saccess = $row["saccess"];
                     $_SESSION["isLoggedIn"] = "true";
                     $_SESSION["access"] = $access;
+                    $_SESSION["saccess"] = $saccess;
+                    $_SESSION["station"] = $station;
                     $_SESSION["loginidx"] = $idx;
                     header("location:main");
                     exit();
@@ -56,15 +60,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!--Bootstrap CSS-->
-    <link rel="stylesheet" href="system/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="system/plugin/bootstrap/css/bootstrap.min.css">
     <!--Custom style.css-->
-    <link rel="stylesheet" href="system/vendor/quick-sand/css/quicksand.css">
     <link rel="stylesheet" href="style.css">
     <!--Font Awesome-->
-    <link rel="stylesheet" href="system/vendor/fontawesome/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="system/vendor/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="system/plugin/fontawesome/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="system/plugin/fontawesome/css/fontawesome.css">
 
-    <title>SkoolTech Solutions</title>
+    <title>Kauswagan LGU Queueing System | Login</title>
   </head>
 
   <body class="login-body">
@@ -73,11 +76,11 @@
 
     <div class="container-fluid login-wrapper">
         <div class="login-box">
-            <h1 class="text-center mb-5">SkoolTech Queueing System</h1>    
+            <h1 class="text-center mb-5" id="title">Kauswagan LGU Queueing System<</h1>    
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-12 login-box-info">
                     <h3 class="mb-4">Welcome Back!</h3>
-                    <img src="system/images/logo.png" width="150" class="rounded-circle">
+                    <img src="system/images/logo.png" width="150" class="rounded-circle" style="border: 2px solid white;">
                 </div>
                 <div class="col-md-6 col-sm-6 col-12 login-box-form p-4">
                     <h3 class="mb-2">Login</h3>
@@ -112,11 +115,11 @@
     <!--Login Wrapper-->
 
     <!-- Page JavaScript Files-->
-    <script src="system/vendor/jquery/js/jquery.min.js"></script>
+    <script src="system/plugin/jquery/js/jquery.min.js"></script>
     <!--Popper JS-->
-    <script src="system/vendor/popper/js/popper.min.js"></script>
+    <script src="system/plugin/popper/js/popper.min.js"></script>
     <!--Bootstrap-->
-    <script src="system/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="system/plugin/bootstrap/js/bootstrap.min.js"></script>
 
     <!--Custom Js Script-->
     <script src="script.js"></script>
