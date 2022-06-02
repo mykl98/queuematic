@@ -91,11 +91,17 @@ function renderAccountList(data){
                         </thead>\
                         <tbody>';
     lists.forEach(function(list){
+        var status = list.status;
+        if(status == "active"){
+            status = '<span class="badge badge-success">Active</span>';
+        }else if(status == "inactive"){
+            status = '<span class="badge badge-danger">Inactive</span>';
+        }
         markUp += '<tr>\
                         <td>'+list.name+'</td>\
                         <td>'+list.username+'</td>\
-                        <td>'+list.access+'</td>\
-                        <td>'+list.status+'</td>\
+                        <td>'+list.saccess+'</td>\
+                        <td>'+status+'</td>\
                         <td>\
                             <button class="btn btn-success btn-sm" onclick="editAccount(\''+ list.idx +'\')"><i class="fa fa-pencil"></i></button>\
                             <button class="btn btn-danger btn-sm" onclick="deleteAccount(\''+ list.idx +'\')"><i class="fas fa-trash"></i></button>\

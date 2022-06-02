@@ -1,12 +1,12 @@
 <?php
     if($_POST){
-        include_once "../../../system/backend/config.php";
+        include_once "../../../../system/backend/config.php";
 
-        function getAccountList(){
+        function getAccountList($station){
             global $conn;
             $data = array();
             $table = "account";
-            $sql = "SELECT * FROM `$table` WHERE access='admin' || access='enforcer' || access='staff' ORDER by idx DESC";
+            $sql = "SELECT * FROM `$table` WHERE station='$station' ORDER by idx DESC";
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     while($row=mysqli_fetch_array($result)){
@@ -15,7 +15,7 @@
                             $value -> idx = $row["idx"];
                             $value -> name = $row["name"];
                             $value -> username = $row["username"];
-                            $value -> access = $row["access"];
+                            $value -> saccess = $row["saccess"];
                             $value -> status = $row["status"];
 
                             array_push($data,$value);
@@ -31,7 +31,8 @@
 
         session_start();
         if($_SESSION["isLoggedIn"] == "true"){
-            echo getAccountList();
+            $station = $_SESSION["station"];
+            echo getAccountList($station);
         }else{
             echo "Access Denied!";
         }

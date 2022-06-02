@@ -1,9 +1,9 @@
 <?php
-    include_once "../../../system/backend/config.php";
+    include_once "../../../../system/backend/config.php";
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "station" && $_SESSION["saccess"] == "admin"){
     
     }else{
         session_destroy();
@@ -125,7 +125,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="add-edit-account-modal-title">Create New Account</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearAddEditAccountModal()">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -144,7 +144,6 @@
                             <select class="form-control" id="account-access" onchange="accessChange()">
                                 <option value="admin">Admin</option>
                                 <option value="staff">Staff</option>
-                                <option value="enforcer">Enforcer</option>
                             </select>
                         </div>
                         <div id="club-select-container"></div>
@@ -159,8 +158,7 @@
                     <p id="save-account-error" class="text-danger font-italic small"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAddEditAccountModal()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveAccount()">Save</button>
+                    <button type="button" class="btn btn-primary w-25" onclick="saveAccount()">Save</button>
                 </div>
             </div>
         </div>

@@ -1,6 +1,6 @@
 <?php
     if($_POST){
-        include_once "../../../system/backend/config.php";
+        include_once "../../../../system/backend/config.php";
 
         function getStationPrefix($idx){
             global $conn;
@@ -16,25 +16,11 @@
             return $prefix;
         }
 
-        function getStationName($idx){
-            global $conn;
-            $name = "";
-            $table = "station";
-            $sql = "SELECT name FROM `$table` WHERE idx='$idx'";
-            if($result=mysqli_query($conn,$sql)){
-                if(mysqli_num_rows($result) > 0){
-                    $row = mysqli_fetch_array($result);
-                    $name = $row["name"];
-                }
-            }
-            return $name;
-        }
-
-        function getQueueList(){
+        function getQueueList($station){
             global $conn;
             $data = array();
             $table = "list";
-            $sql = "SELECT * FROM `$table` ORDER by idx DESC";
+            $sql = "SELECT * FROM `$table` WHERE station='$station' && status='001' ORDER by idx DESC";
             if($result=mysqli_query($conn,$sql)){
                 if(mysqli_num_rows($result) > 0){
                     while($row=mysqli_fetch_array($result)){
@@ -44,8 +30,8 @@
                             $value -> number = getStationPrefix($row["station"]) . $row["number"];
                             $value -> date = $row["date"];
                             $value -> time = $row["time"];
-                            $value -> station = getStationName($row["station"]);
-                            $value -> status = $row["status"];
+                            $value -> name = $row["name"];
+                            $value -> purpose = $row["purpose"];
                             array_push($data,$value);
                         }
                     }
@@ -59,7 +45,8 @@
 
         session_start();
         if($_SESSION["isLoggedIn"] == "true"){
-            echo getQueueList();
+            $station = $_SESSION["station"];
+            echo getQueueList($station);
         }else{
             echo "Access Denied!";
         }

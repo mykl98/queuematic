@@ -1,9 +1,9 @@
 <?php
-    include_once "../../../system/backend/config.php";
+    include_once "../../../../system/backend/config.php";
     session_start();
     $idx = $_SESSION["loginidx"];
 
-    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "admin"){
+    if($_SESSION["isLoggedIn"] == "true" && $_SESSION["access"] == "station" && $_SESSION["saccess"] == "admin"){
     
     }else{
         session_destroy();
@@ -99,6 +99,8 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Queue List</h3>
+                                <button class="btn btn-sm bg-info float-right ml-2" onclick="getQueue()"><span class="fa fa-bolt"></span> Get Queue</button>
+                                <button class="btn btn-sm bg-success float-right" id="refresh-button" onclick="refresh()"><span class="fa fa-refresh"></span><span id="refresh-button-text"> Refresh</span></button>
                             </div>
                             <div class="card-body">
                                 <div id="queue-table-container"></div>
@@ -119,11 +121,11 @@
     <!-- ./wrapper -->
 
     <!-- Modals -->
-    <div class="modal fade" id="add-edit-account-modal">
+    <div class="modal fade" id="show-queue-modal">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="add-edit-account-modal-title">Create New Account</h5>
+                    <h5 class="modal-title">Quueue Detail</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearAddEditAccountModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -131,42 +133,27 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="account-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" id="account-name">
+                            <label for="queue-number" class="col-form-label">Number:</label>
+                            <input type="text" class="form-control" id="queue-number" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="account-username" class="col-form-label">Username:</label>
-                            <input type="text" class="form-control" id="account-username">
+                            <label for="queue-name" class="col-form-label">Name:</label>
+                            <input type="text" class="form-control" id="queue-name" readonly>
                         </div>
                         <div class="form-group">
-                            <label for="account-access" class="col-form-label">Access:</label>
-                            <select class="form-control" id="account-access" onchange="accessChange()">
-                                <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
-                                <option value="enforcer">Enforcer</option>
-                            </select>
-                        </div>
-                        <div id="club-select-container"></div>
-                        <div class="form-group">
-                            <label for="account-status" class="col-form-label">Status:</label>
-                            <select class="form-control" id="account-status">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
+                            <label for="queue-purpose" class="col-form-label">Purpose:</label>
+                            <input type="text" class="form-control" id="queue-purpose" readonly>
                         </div>
                     </form>
-                    <p id="save-account-error" class="text-danger font-italic small"></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAddEditAccountModal()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveAccount()">Save</button>
+                    <button type="button" class="btn btn-primary w-25" onclick="finishQueue()">Finish</button>
                 </div>
             </div>
         </div>
     </div>
 
-
-<!-- Logout Modal -->
+    <!-- Logout Modal -->
     <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

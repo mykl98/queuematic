@@ -84,6 +84,8 @@ function renderQueueList(data){
                                 <th>Queue Number</th>\
                                 <th>Date</th>\
                                 <th>Time</th>\
+                                <th>Name</th>\
+                                <th>Purpose</th>\
                                 <th>Station</th>\
                                 <th>Status</th>\
                             </tr>\
@@ -102,6 +104,8 @@ function renderQueueList(data){
                         <td>'+list.number+'</td>\
                         <td>'+list.date+'</td>\
                         <td>'+list.time+'</td>\
+                        <td>'+list.name+'</td>\
+                        <td>'+list.purpose+'</td>\
                         <td>'+list.station+'</td>\
                         <td>'+status+'</td>\
                    </tr>';
@@ -109,6 +113,27 @@ function renderQueueList(data){
     markUp += '</tbody></table>';
     $("#queue-table-container").html(markUp);
     $("#queue-table").DataTable();
+}
+
+count = 0;
+function refresh(){
+    count = 10;
+    startCountdown();
+    getQueueList();
+    $("#refresh-button").attr("disabled", true);
+}
+
+function startCountdown(){
+    if(count > 0){
+        setTimeout(function(){
+            $("#refresh-button").text("Refresh in " + count);
+            startCountdown();
+            count --;
+        },1000)
+    }else{
+        $("#refresh-button").text("Refresh");
+        $("#refresh-button").attr("disabled", false);
+    }
 }
 
 function logout(){

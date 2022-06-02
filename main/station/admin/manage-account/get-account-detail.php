@@ -1,6 +1,6 @@
 <?php
     if($_POST){
-        include_once "../../../system/backend/config.php";
+        include_once "../../../../system/backend/config.php";
 
         function getAccountDetail($idx){
             global $conn;
@@ -14,7 +14,7 @@
                     $value -> idx = $row["idx"];
                     $value -> name = $row["name"];
                     $value -> username = $row["username"];
-                    $value -> access = $row["access"];
+                    $value -> access = $row["saccess"];
                     $value -> status = $row["status"];
                     array_push($data,$value);
                 }

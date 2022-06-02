@@ -21,6 +21,7 @@ $(".modal").on("hidden.bs.modal",function(){
 
 getQueueList();
 getUserDetails();
+queueIdx;
 
 function getUserDetails(){
     $.ajax({
@@ -84,31 +85,99 @@ function renderQueueList(data){
                                 <th>Queue Number</th>\
                                 <th>Date</th>\
                                 <th>Time</th>\
-                                <th>Station</th>\
-                                <th>Status</th>\
+                                <th>Name</th>\
+                                <th>Purpose</th>\
                             </tr>\
                         </thead>\
                         <tbody>';
     lists.forEach(function(list){
-        var status = list.status;
-        if(status == "001"){
-            status = '<span class="badge badge-warning">Waiting</span>';
-        }else if(status == "002"){
-            status = '<span class="badge badge-success">Called</span>';
-        }else if(status == "003"){
-            status = '<span class="badge badge-danger">Served</span>';
-        }
         markUp += '<tr>\
                         <td>'+list.number+'</td>\
                         <td>'+list.date+'</td>\
                         <td>'+list.time+'</td>\
+                        <td>'+list.name+'</td>\
+                        <td>'+list.purpose+'</td>\
                         <td>'+list.station+'</td>\
-                        <td>'+status+'</td>\
                    </tr>';
     })
     markUp += '</tbody></table>';
     $("#queue-table-container").html(markUp);
     $("#queue-table").DataTable();
+}
+
+count = 0;
+function refresh(){
+    count = 10;
+    startCountdown();
+    getQueueList();
+    $("#refresh-button").attr("disabled", true);
+}
+
+function startCountdown(){
+    if(count > 0){
+        setTimeout(function(){
+            $("#refresh-button-text").text(" Refresh in " + count);
+            startCountdown();
+            count --;
+        },1000)
+    }else{
+        $("#refresh-button-text").text(" Refresh");
+        $("#refresh-button").attr("disabled", false);
+    }
+}
+
+function getQueue(){
+    $.ajax({
+		type: "POST",
+		url: "get-queue-detail.php",
+		dataType: 'html',
+		data: {
+			dummy:"dummy"
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				renderQueue(resp[1]);
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
+}
+
+function renderQueue(data){
+    var lists = JSON.parse(data);
+    lists.forEach(function(list){
+        queueIdx = list.idx;
+        $("#queue-number").val(list.number);
+        $("#queue-name").val(list.name);
+        $("#queue-purpose").val(list.purpose);
+    })
+    getQueueList();
+    $("#show-queue-modal").modal("show");
+}
+
+function finishQueue(){
+    $.ajax({
+		type: "POST",
+		url: "finish-queue.php",
+		dataType: 'html',
+		data: {
+			queueidx:queueIdx
+		},
+		success: function(response){
+			var resp = response.split("*_*");
+			if(resp[0] == "true"){
+				getQueueList();
+			}else if(resp[0] == "false"){
+				alert(resp[1]);
+			} else{
+				alert(response);
+			}
+		}
+	});
 }
 
 function logout(){

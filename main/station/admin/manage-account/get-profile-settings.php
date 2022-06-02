@@ -1,6 +1,6 @@
 <?php
     if($_POST){
-        include_once "../../../system/backend/config.php";
+        include_once "../../../../system/backend/config.php";
 
         function getProfileSettings($idx){
             global $conn;

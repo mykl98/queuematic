@@ -11,7 +11,7 @@ include_once "../system/backend/config.php";
             case "station":
                 $saccess = $_SESSION["saccess"];
                 if($saccess == "admin"){
-                    header("location:station/admin/queue-manager");
+                    header("location:station/admin/manage-account");
                     exit();
                 }else if($saccess == "staff"){
                     header("location:station/staff/queue-manager");

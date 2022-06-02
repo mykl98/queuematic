@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin | Manage Account</title>
+    <title>Admin | Queue Manager</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
@@ -99,6 +99,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">Queue List</h3>
+                                <button class="btn btn-sm bg-success float-right" id="refresh-button" onclick="refresh()"><span class="fa fa-refresh"></span> Refresh</button>
                             </div>
                             <div class="card-body">
                                 <div id="queue-table-container"></div>
@@ -118,55 +119,7 @@
     </div>
     <!-- ./wrapper -->
 
-    <!-- Modals -->
-    <div class="modal fade" id="add-edit-account-modal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="add-edit-account-modal-title">Create New Account</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="clearAddEditAccountModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="account-name" class="col-form-label">Name:</label>
-                            <input type="text" class="form-control" id="account-name">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-username" class="col-form-label">Username:</label>
-                            <input type="text" class="form-control" id="account-username">
-                        </div>
-                        <div class="form-group">
-                            <label for="account-access" class="col-form-label">Access:</label>
-                            <select class="form-control" id="account-access" onchange="accessChange()">
-                                <option value="admin">Admin</option>
-                                <option value="staff">Staff</option>
-                                <option value="enforcer">Enforcer</option>
-                            </select>
-                        </div>
-                        <div id="club-select-container"></div>
-                        <div class="form-group">
-                            <label for="account-status" class="col-form-label">Status:</label>
-                            <select class="form-control" id="account-status">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-                    </form>
-                    <p id="save-account-error" class="text-danger font-italic small"></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="clearAddEditAccountModal()">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="saveAccount()">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-<!-- Logout Modal -->
+    <!-- Logout Modal -->
     <div class="modal fade" id="logout-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
